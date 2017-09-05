@@ -34,10 +34,13 @@ def xfconf(path, img):
                  "--property", path, "--set", img])
 
 
-def set_wm_wallpaper(img):
+def set_wm_wallpaper(img, tiled=False):
     """Set the wallpaper for non desktop environments."""
     if shutil.which("feh"):
-        util.disown(["feh", "--bg-fill", img])
+        if tiled:
+            util.disown(["feh", "--bg-tile", img])
+        else:
+            util.disown(["feh", "--bg-fill", img])
 
     elif shutil.which("nitrogen"):
         util.disown(["nitrogen", "--set-zoom-fill", img])
@@ -107,7 +110,7 @@ def set_win_wallpaper(img):
         ctypes.windll.user32.SystemParametersInfoA(20, 0, img, 3)
 
 
-def change(img):
+def change(img, tiled=False):
     """Set the wallpaper."""
     if not os.path.isfile(img):
         return
@@ -124,7 +127,7 @@ def change(img):
         set_desktop_wallpaper(desktop, img)
 
     else:
-        set_wm_wallpaper(img)
+        set_wm_wallpaper(img, tiled)
 
     print("wallpaper: Set the new wallpaper.")
 

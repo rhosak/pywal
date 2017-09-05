@@ -71,6 +71,9 @@ def get_args(args):
     arg.add_argument("-e", action="store_true",
                      help="Skip Reloading Environment gtk/xrdb/i3/polybar")
 
+    arg.add_argument("-T", action="store_true",
+                     help="Tile the background image.")
+
     return arg.parse_args(args)
 
 
@@ -127,7 +130,7 @@ def process_args(args):
         sequences.send(colors_plain, args.t)
 
         if not args.n:
-            wallpaper.change(colors_plain["wallpaper"])
+            wallpaper.change(colors_plain["wallpaper"], tiled=args.T)
 
         export.every(colors_plain)
 
